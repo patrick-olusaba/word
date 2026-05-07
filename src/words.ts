@@ -11,6 +11,8 @@ export const EASY_WORDS: string[] = [
   'WATCH', 'WATER', 'WHALE', 'WORLD', 'YOUTH',
 ];
 
+
+
 // Medium: slightly less common
 export const MEDIUM_WORDS: string[] = [
   'BRAIN', 'BRUSH', 'CHEST', 'CHORD', 'CLICK',
