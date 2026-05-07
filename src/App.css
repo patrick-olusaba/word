@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@700&display=swap');
+
+/* ── Design tokens ───────────────────────── */
+
+:root {
+  --bg: #ffffff;
+  --text: #121213;
+  --border: #e5e7eb;
+  --absent: #71717a;
+  --present: #eab308;
+  --correct: #22c55e;
+  --key-bg: #e5e7eb;
+  --key-text: #1a1a1b;
+  --tile-text: #1a1a1b;
+  --tile-border: #d1d5db;
+  --header-border: #f3f4f6;
+  --accent: #3b82f6;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+[data-theme="dark"] {
+  --bg: #121213;
+  --text: #ffffff;
+  --border: #3f3f46;
+  --absent: #3f3f46;
+  --present: #b59f3b;
+  --correct: #538d4e;
+  --key-bg: #818384;
+  --key-text: #ffffff;
+  --tile-text: #ffffff;
+  --tile-border: #3f3f46;
+  --header-border: #1f1f20;
+}
+
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .modal__game-over-msg,
+[data-theme="dark"] .stats-grid {
+  background: #1f1f20;
+}
+
+[data-theme="dark"] .stat-item__value {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .btn--secondary {
+  background-color: #3f3f46;
+  color: #d1d5db;
+}
+
+[data-theme="dark"] .btn--danger {
+  background-color: #3f1f1f;
+  color: #f87171;
+}
+
+[data-theme="dark"] .header__icon-btn:hover,
+[data-theme="dark"] .header__icon-btn[data-active="true"] {
+  background: #2a2a2b;
+}
+
+[data-high-contrast="true"] {
+  --present: #f5793a;
+  --correct: #85c0f9;
+}
+
+/* ── Reset ───────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── Layout ──────────────────────────────── */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ── Header ──────────────────────────────── */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--header-border);
+  flex-shrink: 0;
+}
+
+.header__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--text);
+}
+
+.header__icon-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  opacity: 0.55;
+}
+
+.header__icon-btn:hover,
+.header__icon-btn[data-active="true"] {
+  opacity: 1;
+  background: var(--key-bg);
+}
+
+.header__actions {
+  display: flex;
+  gap: 2px;
+}
+
+/* ── Main game area ──────────────────────── */
+
+.game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  overflow: hidden;
+}
+
+.board-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Difficulty bar ──────────────────────── */
+
+.diff-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 0 2px;
+  flex-shrink: 0;
+}
+
+.diff-pill {
+  border: 1.5px solid var(--border);
+  background: none;
+  color: var(--text);
+  border-radius: 20px;
+  padding: 5px 18px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  opacity: 0.4;
+  transition: opacity 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
+  letter-spacing: 0.03em;
+}
+
+.diff-pill--active {
+  opacity: 1;
+  border-color: transparent;
+  color: #fff;
+}
+
+.diff-pill--active.diff-pill--easy   { background: var(--correct); }
+.diff-pill--active.diff-pill--medium { background: var(--present); }
+.diff-pill--active.diff-pill--hard   { background: #ef4444; }
+
+/* ── Toast messages ──────────────────────── */
+
+.toast-container {
+  position: fixed;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  pointer-events: none;
+  width: 90%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast {
+  background-color: #121213;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-16px);
+  animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+             toastOut 0.25s ease 2.5s forwards;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes toastIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastOut {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}

@@ -1,0 +1,133 @@
+.board {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.board__row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.board__row--shake {
+  animation: shake 0.5s ease;
+}
+
+/* ── Tile ─────────────────────────────────── */
+
+.tile {
+  width: clamp(52px, 13vw, 64px);
+  height: clamp(52px, 13vw, 64px);
+  border: 2px solid var(--tile-border);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(1.4rem, 5.5vw, 2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--tile-text);
+  user-select: none;
+  transition: border-color 0.1s ease;
+}
+
+/* Filled (has a letter, not yet submitted) */
+.tile--filled {
+  border-color: #9ca3af;
+}
+
+/* Active (current editing row) — subtle scale on entry via pop */
+.tile--active {
+  border-color: #374151;
+}
+
+/* Pop on each keypress */
+.tile--pop {
+  animation: tilePop 0.12s ease;
+}
+
+/* Hint — glowing column highlight */
+.tile--hint {
+  border-color: #a855f7;
+  box-shadow: 0 0 8px 2px rgba(168, 85, 247, 0.5);
+  animation: hintPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { box-shadow: 0 0 6px 2px rgba(168, 85, 247, 0.4); }
+  50%       { box-shadow: 0 0 14px 4px rgba(168, 85, 247, 0.8); }
+}
+
+/* Result states */
+.tile--correct {
+  background-color: var(--correct);
+  border-color: var(--correct);
+  color: #ffffff;
+}
+
+.tile--present {
+  background-color: var(--present);
+  border-color: var(--present);
+  color: #ffffff;
+}
+
+.tile--absent {
+  background-color: var(--absent);
+  border-color: var(--absent);
+  color: #ffffff;
+}
+
+/* ── Flip animation ───────────────────────── */
+
+.tile--flipping {
+  animation: tileReveal 0.55s ease forwards;
+}
+
+@keyframes tileReveal {
+  0% {
+    transform: scaleY(1);
+  }
+  /* Shrink to flat — front face disappears */
+  40% {
+    transform: scaleY(0);
+    /* keeps old colours (empty/active) */
+  }
+  /* Still flat — colours transition here while tile is invisible */
+  60% {
+    transform: scaleY(0);
+    /* result class colours are now applied */
+  }
+  /* Expand back — back face with result colour */
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* ── Other animations ────────────────────── */
+
+@keyframes tilePop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60%  { transform: translateX(-6px); }
+  40%, 80%  { transform: translateX(6px); }
+}
+
+/* ── Win celebration ─────────────────────── */
+
+.tile--win {
+  animation: tileWin 0.6s ease forwards;
+}
+
+@keyframes tileWin {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-20px); }
+  40% { transform: translateY(0); }
+  60% { transform: translateY(-10px); }
+  80% { transform: translateY(0); }
+}
