@@ -7,6 +7,8 @@ import { confetti } from '../confetti';
 export const WORD_LENGTH = 5;
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
+const VALID_GUESSES = new Set([...EASY_WORDS, ...MEDIUM_WORDS, ...HARD_WORDS]);
+
 const MAX_GUESSES_MAP: Record<Difficulty, number> = { easy: 7, medium: 6, hard: 5 };
 const WORD_POOL: Record<Difficulty, string[]> = {
   easy: EASY_WORDS,
@@ -222,6 +224,14 @@ export function useWordle(): WordleGame {
     if (currentGuess.length !== WORD_LENGTH) {
       sounds.error();
       showToast('Not enough letters');
+      setShakeRow(guesses.length);
+      setTimeout(() => setShakeRow(-1), 600);
+      return;
+    }
+
+    if (!VALID_GUESSES.has(currentGuess)) {
+      sounds.error();
+      showToast('Not a valid word');
       setShakeRow(guesses.length);
       setTimeout(() => setShakeRow(-1), 600);
       return;
