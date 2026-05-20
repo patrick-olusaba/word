@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { EASY_WORDS, MEDIUM_WORDS, HARD_WORDS } from '../words';
+import { EASY_WORDS, MEDIUM_WORDS, HARD_WORDS, CLUES } from '../words';
+import { VALID_GUESSES } from '../validGuesses';
 import type { TileState, KeyState, GameStats, ToastMessage } from '../types';
 import { sounds } from '../sounds';
 import { confetti } from '../confetti';
@@ -7,7 +8,7 @@ import { confetti } from '../confetti';
 export const WORD_LENGTH = 5;
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
-const VALID_GUESSES = new Set([...EASY_WORDS, ...MEDIUM_WORDS, ...HARD_WORDS]);
+const VALID_GUESS_SET = new Set(VALID_GUESSES);
 
 const MAX_GUESSES_MAP: Record<Difficulty, number> = { easy: 7, medium: 6, hard: 5 };
 const WORD_POOL: Record<Difficulty, string[]> = {
@@ -89,6 +90,7 @@ export interface WordleGame {
   popCol: number;
   hintCol: number;
   hintUsed: boolean;
+  clue: string;
   maxGuesses: number;
   statsOpen: boolean;
   helpOpen: boolean;
@@ -229,7 +231,7 @@ export function useWordle(): WordleGame {
       return;
     }
 
-    if (!VALID_GUESSES.has(currentGuess)) {
+    if (!VALID_GUESS_SET.has(currentGuess)) {
       sounds.error();
       showToast('Not a valid word');
       setShakeRow(guesses.length);
@@ -349,7 +351,7 @@ export function useWordle(): WordleGame {
   return {
     targetWord, guesses, results, currentGuess, gameOver, gameWon, isAnimating,
     keyStates, toasts, stats, animatingRow, animatingGuess, animatingResult,
-    shakeRow, winRow, popCol, hintCol, hintUsed, maxGuesses, statsOpen, helpOpen, theme, highContrast,
+    shakeRow, winRow, popCol, hintCol, hintUsed, clue: CLUES[targetWord], maxGuesses, statsOpen, helpOpen, theme, highContrast,
     difficulty, dailyMode,
     toggleTheme, toggleHighContrast, setDifficulty, toggleDailyMode, useHint,
     handleInput, resetGame, resetStats, setStatsOpen, setHelpOpen,

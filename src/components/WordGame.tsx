@@ -67,6 +67,11 @@ export function WordGame() {
         {game.toasts.map((t) => <div key={t.id} className="toast">{t.text}</div>)}
       </div>
 
+      <div className="clue-bar">
+        <span className="clue-bar__label">Clue</span>
+        <span className="clue-bar__text">{game.clue}</span>
+      </div>
+
       <main className="game-container">
         <div className="board-container">
           <Board
